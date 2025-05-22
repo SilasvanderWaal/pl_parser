@@ -21,15 +21,22 @@ id            --> [a]|[b]|[c].
 /******************************************************************************/
 var_part             --> [var], var_dec_list.
 var_dec_list         --> var_dec | var_dec, var_dec_list.
-var_dec              --> id_list , [':'], typ, [';'].
+var_dec              --> id_list , [':'], type, [';'].
 id_list              --> id | id, [','], id_list.
-typ                  --> integer | real | boolean.
+type                  --> [integer] | [real] | [boolean].
 
 /******************************************************************************/
 /* Stat part                                                                  */
 /******************************************************************************/
-stat_part            -->  stat_part_todo.
-stat_part_todo(_,_)  :-   write('stat_part: To Be Done'), nl.
+stat_part            -->  [begin], stat_list, [end], ['.'].
+stat_list            --> stat | stat, [';'], stat_list.
+stat                 --> assign_stat.
+assign_stat          --> id, [assign], expr.
+expr                 --> term | term, ['+'], expr.
+term                 --> factor | factor, ['*'], term. 
+factor              --> ['('], expr, [')'] | operand.
+operand             --> id | number.
+number              --> ['1'].
 
 /******************************************************************************/
 /* Testing the system: this may be done stepwise in Prolog                    */
